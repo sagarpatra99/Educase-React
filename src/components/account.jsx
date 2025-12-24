@@ -33,7 +33,7 @@ export default function Account() {
         />
         <div>
           <h5 className="font-semibold">{user.name}</h5>
-          <p>{user.name}</p>
+          <p>{user.email}</p>
         </div>
       </div>
       <p className="px-4 py-2">
@@ -42,14 +42,12 @@ export default function Account() {
         eligendi doloribus alias omnis autem vitae, perferendis explicabo
         tenetur quidem odio unde assumenda!
       </p>
-      {/* <Link
-        to="/"
-        className="text-center w-fits py-2 px-4 font-semibold text-white rounded-lg bg-red-600 hover:bg-red-700 transition-all duration-300 mt-80 mx-auto"
-      > */}
-        <button className="cursor-pointer text-center w-fits py-2 px-4 font-semibold text-white rounded-lg bg-red-600 hover:bg-red-700 transition-all duration-300 mt-80 mx-auto" onClick={handleLogout}>
-          Logout
-        </button>
-      {/* </Link> */}
+      <button
+        className="cursor-pointer text-center w-fits py-2 px-4 font-semibold text-white rounded-lg bg-red-600 hover:bg-red-700 transition-all duration-300 mt-80 mx-auto"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
     </div>
   );
 }
