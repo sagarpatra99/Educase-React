@@ -33,6 +33,14 @@ export default function SignUp() {
       return;
     }
 
+    const normalizedPassword = password.trim();
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(normalizedPassword)) {
+      alert("Password must contain lowercase, uppercase, symbol");
+      return;
+    }
+
     const users = getUsers();
     const emailExists = users.some((u) => u.email === email);
 
@@ -138,17 +146,12 @@ export default function SignUp() {
           <span name="agency">No</span>
         </div>
       </div>
-      {/* <Link
-        to="/account"
-        className="text-center w-full py-2 font-semibold text-white rounded-lg bg-purple-600 hover:bg-purple-700 transition-all duration-300 mt-20"
-      > */}
       <button
         className="cursor-pointer text-center w-full py-2 font-semibold text-white rounded-lg bg-purple-600 hover:bg-purple-700 transition-all duration-300 mt-20"
         onClick={handleSignup}
       >
         Create Account
       </button>
-      {/* </Link> */}
     </div>
   );
 }
