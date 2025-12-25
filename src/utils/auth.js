@@ -1,23 +1,3 @@
-//     export const getUsers = () => {
-//   return JSON.parse(localStorage.getItem("users") || []);
-// };
-
-// export const saveUsers = (users) => {
-//   localStorage.setItem("users", JSON.stringify(users));
-// };
-
-// export const getLoggedInUser = () => {
-//   return JSON.parse(localStorage.getItem("loggedInUser"));
-// };
-
-// export const setLoggedInUser = (user) => {
-//   localStorage.setItem("loggedInUser", JSON.stringify(user));
-// };
-
-// export const logoutUser = () => {
-//     localStorage.removeItem("loggedInUser")
-// }
-
 export const getUsers = () => {
   try {
     const users = localStorage.getItem("users");

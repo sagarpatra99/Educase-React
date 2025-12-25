@@ -6,7 +6,7 @@ import Account from "./components/account";
 
 export default function App() {
   return (
-    <div className="max-w-100 min-h-screen bg-[#F7F8F9] mx-auto border border-gray-200">
+    <div className="max-w-100 bg-[#F7F8F9] mx-auto border border-gray-200">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

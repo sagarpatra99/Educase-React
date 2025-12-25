@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getUsers, saveUsers } from "../utils/auth";
+import InputField from "./input-field";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ export default function SignUp() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSignup = () => {
@@ -25,133 +27,108 @@ export default function SignUp() {
       alert("All fields are required");
       return;
     }
-    const normalizedEmail = email.trim().toLowerCase();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(normalizedEmail)) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim().toLowerCase())) {
       alert("Please enter a valid email address");
       return;
     }
 
-    const normalizedPassword = password.trim();
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(normalizedPassword)) {
-      alert("Password must contain lowercase, uppercase, symbol");
+    if (!passwordRegex.test(password.trim())) {
+      alert("Password must contain lowercase, uppercase and symbol");
       return;
     }
 
     const users = getUsers();
-    const emailExists = users.some((u) => u.email === email);
-
-    if (emailExists) {
+    if (users.some((u) => u.email === email.trim().toLowerCase())) {
       alert("Email already registered");
       return;
     }
 
-    users.push(formData);
-    saveUsers(users);
-
-    alert("Account created successfully");
+    saveUsers([...users, { ...formData, email: email.trim().toLowerCase() }]);
     navigate("/login");
+    alert("Account Created Successfully");
   };
 
   return (
-    <div className="flex items-start flex-col p-6 space-y-4">
-      <h2 className="text-2xl font-bold pt-4 pr-48">
-        Create your PopX account
-      </h2>
-      <fieldset className="border-2 border-gray-300 pl-4 w-full rounded-lg">
-        <legend className="px-2 text-[#6C25FF] font-semibold required">
-          Full Name
-        </legend>
-        <input
-          type="text"
+    <div className="h-screen flex flex-col p-6">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Create your PopX account</h2>
+
+        <InputField
+          legend="Full Name"
           name="name"
           placeholder="Enter your name"
-          className="outline-none mb-2 w-full pl-1"
           onChange={handleChange}
         />
-      </fieldset>
-      <fieldset className="border-2 border-gray-300 pl-4 w-full rounded-lg">
-        <legend className="px-2 text-[#6C25FF] font-semibold required">
-          Phone Number
-        </legend>
-        <input
-          type="text"
+
+        <InputField
+          legend="Phone Number"
           name="phone"
-          placeholder="Enter number"
-          className="outline-none mb-2 w-full pl-1"
+          placeholder="4654658798"
           onChange={handleChange}
         />
-      </fieldset>
-      <fieldset className="border-2 border-gray-300 pl-4 w-full rounded-lg">
-        <legend className="px-2 text-[#6C25FF] font-semibold required">
-          Email Address
-        </legend>
-        <input
+
+        <InputField
+          legend="Email Address"
           type="email"
           name="email"
           placeholder="Enter email address"
-          className="outline-none mb-2 w-full pl-1"
           onChange={handleChange}
         />
-      </fieldset>
-      <fieldset className="border-2 border-gray-300 pl-4 w-full rounded-lg">
-        <legend className="px-2 text-[#6C25FF] font-semibold required">
-          Password
-        </legend>
-        <input
+
+        <InputField
+          legend="Password"
           type="password"
           name="password"
-          placeholder="Enter password"
-          className="outline-none mb-2 w-full pl-1"
+          placeholder="Hide password"
           onChange={handleChange}
+          eyeIcon={true}
         />
-      </fieldset>
-      <fieldset className="border-2 border-gray-300 pl-4 w-full rounded-lg">
-        <legend className="px-2 text-[#6C25FF] font-semibold required">
-          Company Name
-        </legend>
-        <input
-          type="text"
+
+        <InputField
+          legend="Company Name"
           name="company"
           placeholder="Enter company name"
-          className="outline-none mb-2 w-full pl-1"
           onChange={handleChange}
         />
-      </fieldset>
-      <label htmlFor="" className="required">
-        Are you an Agency?
-      </label>
-      <div className="flex items-center gap-5">
-        <div className="space-x-2">
-          <input
-            type="radio"
-            name="agency"
-            value="Yes"
-            className="h-5 w-5"
-            onChange={handleChange}
-          />
-          <span>Yes</span>
-        </div>
-        <div className="space-x-2">
-          <input
-            type="radio"
-            name="agency"
-            value="No"
-            className="h-5 w-5"
-            onChange={handleChange}
-          />
-          <span name="agency">No</span>
+
+        <div className="space-y-2">
+          <label className="font-medium">Are you an Agency?</label>
+          <div className="flex gap-6">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="agency"
+                value="Yes"
+                onChange={handleChange}
+                className="h-4 w-4"
+              />
+              Yes
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="agency"
+                value="No"
+                onChange={handleChange}
+                className="h-4 w-4"
+              />
+              No
+            </label>
+          </div>
         </div>
       </div>
-      <button
-        className="cursor-pointer text-center w-full py-2 font-semibold text-white rounded-lg bg-purple-600 hover:bg-purple-700 transition-all duration-300 mt-20"
-        onClick={handleSignup}
-      >
-        Create Account
-      </button>
+      <div className="mt-auto pt-6">
+        <button
+          onClick={handleSignup}
+          className="w-full py-2 font-semibold text-white rounded-lg bg-purple-600 hover:bg-purple-700 transition"
+        >
+          Create Account
+        </button>
+      </div>
     </div>
   );
 }
