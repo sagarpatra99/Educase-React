@@ -11,6 +11,7 @@ export default function InputField({
 }) {
   const [showPass, setShowPass] = useState(false);
   const inputType = eyeIcon && type === "password" && showPass ? "text" : type;
+  const inputPlaceholder = showPass ? "Show password" : placeholder
   return (
     <>
       <fieldset className="border-2 border-gray-300 pl-4 w-full rounded-lg flex pr-4">
@@ -20,7 +21,7 @@ export default function InputField({
         <input
           type={inputType}
           name={name}
-          placeholder={placeholder}
+          placeholder={inputPlaceholder}
           className="outline-none mb-2 w-full pl-1"
           onChange={onChange}
         />
